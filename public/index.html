@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>User Management</title>
+    <link href ="/style.css" rel="stylesheet" type="text/css"/>
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+  </head>
+  <body>
+    <h1 class="title">User Management</h1>
+    <div id="homepage">
+      <h1>Manage Users from here !!</h1>
+      <div id="users">
+
+      </div>
+    </div>
+
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <script src="https://unpkg.com/react@15/dist/react.js"></script>
+        <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+
+        <!-- Create React Component -->
+        <script type="text/babel">
+        var Users = React.createClass({
+            getInitialState: function(){
+                return({
+                    users: []
+                });
+            },
+            render: function(){
+                var users = this.state.users;
+                users = users.map(function(user, index){
+                    return(
+                        <li key={index}>
+                        <span className={user.available}></span>
+                            <span className="name">{user.name}</span>
+                            <span className="id">{user.id}</span>
+                        </li>
+                    );
+                });
+                return(
+                    <div id="user-container">
+                        <form id="search" onSubmit={this.handleSubmit}>
+                            <label>Enter user name</label>
+                            <input type="text" ref="name" placeholder="Name" required />
+                            <input type="submit" value="Find Users" />
+                        </form>
+                        <ul>{users}</ul>
+                    </div>
+                );
+            },
+            handleSubmit: function(e){
+                e.preventDefault();
+                var name = this.refs.name.value;
+                fetch('/api/users?name=' + name).then(function(data){
+                    return data.json();
+                }).then( json => {
+                    this.setState({
+                        users: json
+                    });
+                });
+            }
+        });
+        ReactDOM.render(<Users />, document.getElementById('users'));
+        </script>
+  </body>
+</html>
