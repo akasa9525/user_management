@@ -1,6 +1,6 @@
 # user_management
 
-A simple web architecture implemented using MERN (MongoDB, Express, React and NodeJS).
+A simple REST API web architecture implemented using MERN (MongoDB, Express, React and NodeJS).
 
 Steps to run:
 1. Clone the repository.
